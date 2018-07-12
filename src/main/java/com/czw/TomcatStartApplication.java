@@ -1,4 +1,4 @@
-package com.czw.application;
+package com.czw;
 
 import org.springframework.boot.builder.SpringApplicationBuilder;
 import org.springframework.boot.web.support.SpringBootServletInitializer;

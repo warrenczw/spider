@@ -1,4 +1,4 @@
-package com.czw.application;
+package com.czw;
 import java.io.InputStream;
 import java.util.Properties;
 
