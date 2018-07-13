@@ -54,13 +54,16 @@ public class ToutiaoRss {
 		                String articleUrl = childs.getJSONObject(i).getString("article_url"); 
 		                if(articleUrl.indexOf("toutiao.com/group/")==-1)
 		                	continue;
+		                if("true".equals(childs.getJSONObject(i).getString("has_gallery")) || "true".equals(childs.getJSONObject(i).getString("has_video")))
+		                	continue;
 		                if(Tools.stringIsNotNull(articleUrl)){
-		                	String aurl = "http://www.toutiao.com/a"+articleUrl.replaceAll("http://toutiao.com", "").replaceAll("group", "").replaceAll("/", "");
+		                	String sequenceId = childs.getJSONObject(i).getString("id");
+		                	String aurl = "http://www.toutiao.com/a"+sequenceId;
 		                	Article article = new Article();
 		                	article.setTitle(childs.getJSONObject(i).getString("title"));
 		                	article.setCoverUrl(childs.getJSONObject(i).getString("large_image_url"));
 		                	article.setDescribe(childs.getJSONObject(i).getString("abstract"));
-		                	article.setSequence(childs.getJSONObject(i).getString("item_id"));
+		                	article.setSequence(sequenceId);
 		                	article.setSourceUrl(childs.getJSONObject(i).getString("article_url"));
 		                	parseArticle(aurl,article);
 		                	resArray.add(JSONObject.toJSON(article));
@@ -87,7 +90,10 @@ public class ToutiaoRss {
 					contentElement = doc.select("div.article-content>div").first();
 				}
 			}
-			String content = contentElement.html().toString();
+			String content = "";
+			if(contentElement!=null){
+				content = contentElement.html().toString();
+			}
 			article.setContent(delTouTiaoNote(content));
 		}
 	 }
